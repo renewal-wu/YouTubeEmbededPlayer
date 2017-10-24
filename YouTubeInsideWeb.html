@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 0px;
+            height: 0;
+            overflow: hidden;
+        }
+
+            .video-container iframe,
+            .video-container object,
+            .video-container embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+</head>
+<body bgcolor="#000000">
+    <div id="playerContainer" class="video-container">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        // 文件: https://developers.google.com/youtube/iframe_api_reference
+
+        // 滑鼠滑過這個網站後，會 call window.external.notify("mousemove");
+        document.addEventListener("mousemove", function (e) { window.external.notify("mousemove"); });
+
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            // 要把 videoId 帶給 query parameter `video`
+            var videoId = parseQueryParameter('video');
+            player = new YT.Player('player', {
+                videoId: videoId,
+                playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'showinfo': 0, 'fs': 0, 'disablekb': 1, 'iv_load_policy': 3 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function parseQueryParameter(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        // PlayerReady callback
+        function onPlayerReady(event) {
+            player.playVideo();
+            updateVideoVolume();
+        }
+
+        // 狀態改變的 callback
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                window.external.notify("play");
+            }
+            else {
+                window.external.notify("pause");
+            }
+        }
+
+        // 調整尺寸
+        function setSize(width, height) {
+            player.setSize(width, height);
+        }
+
+        // 請外部 app 更新音量
+        function updateVideoVolume() {
+            window.external.notify("updateVideoVolume");
+        }
+
+        // 靜音
+        function setVideoMute() {
+            player.mute();
+        }
+
+        // 解除靜音
+        function setVideoUnmute() {
+            player.unMute();
+        }
+
+        // 設定音量
+        function setVideoVolume(volume) {
+            player.setVolume(volume * 100);
+        }
+
+        // 暫停
+        function pauseVideo() {
+            player.pauseVideo();
+        }
+
+        // 開始播放
+        function playVideo() {
+            player.playVideo();
+        }
+
+        // 取得 duration
+        function getVideoDuration() {
+            return player.getDuration().toString();
+        }
+
+        // 取得目前時間
+        function getVideoCurrentTime() {
+            return player.getCurrentTime().toString();
+        }
+
+        // Seek
+        function setVideoCurrentTime(time) {
+            player.seekTo(time);
+        }
+
+    </script>
+</body>
+</html>
