@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,18 @@
                 width: 100%;
                 height: 100%;
             }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+        }
     </style>
 </head>
 <body bgcolor="#000000">
@@ -27,9 +40,9 @@
     </div>
 
     <script>
-        // ¤å¥ó: https://developers.google.com/youtube/iframe_api_reference
+        // æ–‡ä»¶: https://developers.google.com/youtube/iframe_api_reference
 
-        // ·Æ¹«·Æ¹L³o­Óºô¯¸«á¡A·| call window.external.notify("mousemove");
+        // æ»‘é¼ æ»‘éé€™å€‹ç¶²ç«™å¾Œï¼Œæœƒ call window.external.notify("mousemove");
         document.addEventListener("mousemove", function (e) { window.external.notify("mousemove"); });
 
         var tag = document.createElement('script');
@@ -41,7 +54,7 @@
         var player;
 
         function onYouTubeIframeAPIReady() {
-            // ­n§â videoId ±aµ¹ query parameter `video`
+            // è¦æŠŠ videoId å¸¶çµ¦ query parameter `video`
             var videoId = parseQueryParameter('video');
             player = new YT.Player('player', {
                 videoId: videoId,
@@ -66,7 +79,7 @@
             updateVideoVolume();
         }
 
-        // ª¬ºA§ïÅÜªº callback
+        // ç‹€æ…‹æ”¹è®Šçš„ callback
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING) {
                 window.external.notify("play");
@@ -76,47 +89,47 @@
             }
         }
 
-        // ½Õ¾ã¤Ø¤o
+        // èª¿æ•´å°ºå¯¸
         function setSize(width, height) {
             player.setSize(width, height);
         }
 
-        // ½Ğ¥~³¡ app §ó·s­µ¶q
+        // è«‹å¤–éƒ¨ app æ›´æ–°éŸ³é‡
         function updateVideoVolume() {
             window.external.notify("updateVideoVolume");
         }
 
-        // ÀR­µ
+        // éœéŸ³
         function setVideoMute() {
             player.mute();
         }
 
-        // ¸Ñ°£ÀR­µ
+        // è§£é™¤éœéŸ³
         function setVideoUnmute() {
             player.unMute();
         }
 
-        // ³]©w­µ¶q
+        // è¨­å®šéŸ³é‡
         function setVideoVolume(volume) {
             player.setVolume(volume * 100);
         }
 
-        // ¼È°±
+        // æš«åœ
         function pauseVideo() {
             player.pauseVideo();
         }
 
-        // ¶}©l¼½©ñ
+        // é–‹å§‹æ’­æ”¾
         function playVideo() {
             player.playVideo();
         }
 
-        // ¨ú±o duration
+        // å–å¾— duration
         function getVideoDuration() {
             return player.getDuration().toString();
         }
 
-        // ¨ú±o¥Ø«e®É¶¡
+        // å–å¾—ç›®å‰æ™‚é–“
         function getVideoCurrentTime() {
             return player.getCurrentTime().toString();
         }
