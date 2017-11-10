@@ -42,8 +42,8 @@
     <script>
         // 文件: https://developers.google.com/youtube/iframe_api_reference
 
-        // 滑鼠滑過這個網站後，會 call window.external.notify("mousemove");
-        document.addEventListener("mousemove", function (e) { window.external.notify("mousemove"); });
+        // 滑鼠滑過這個網站後，會 call external.notify("mousemove");
+        document.addEventListener("mousemove", function (e) { external.notify("mousemove"); });
 
         var tag = document.createElement('script');
 
@@ -82,10 +82,10 @@
         // 狀態改變的 callback
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING) {
-                window.external.notify("play");
+                external.notify("play");
             }
             else {
-                window.external.notify("pause");
+                external.notify("pause");
             }
         }
 
@@ -96,7 +96,7 @@
 
         // 請外部 app 更新音量
         function updateVideoVolume() {
-            window.external.notify("updateVideoVolume");
+            external.notify("updateVideoVolume");
         }
 
         // 靜音
